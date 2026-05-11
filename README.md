@@ -97,9 +97,22 @@ The app sends:
 
 ## Project Structure
 
-- `src/config/env.ts` - typed environment schema with sandbox-mode conditional validation
-- `src/services/personalizationService.ts` - OpenAI personalization + generic fallback
-- `src/services/mailService.ts` - Mailtrap template delivery with env-driven mode switching
-- `src/routes/signup.ts` - server-rendered signup form, validation, rate limiting, and submission flow
-- `src/app.ts` / `src/server.ts` - app bootstrap and runtime entrypoint
+```text
+.
+├── src/
+│   ├── app.ts                    # Express app bootstrap
+│   ├── server.ts                 # HTTP server entry
+│   ├── config/
+│   │   └── env.ts                # Typed env schema + sandbox conditional checks
+│   ├── routes/
+│   │   └── signup.ts             # Signup page render, validation, and submit flow
+│   ├── services/
+│   │   ├── personalizationService.ts # OpenAI copy generation + fallback
+│   │   └── mailService.ts        # Mailtrap template delivery service
+│   └── types/
+│       └── signup.ts             # Signup payload and email copy types
+├── .env.example
+├── README.md
+└── package.json
+```
 
