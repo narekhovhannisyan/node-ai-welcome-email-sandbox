@@ -1,6 +1,15 @@
-# node-ai-welcome-email-sandbox
+# Node SaaS: AI-Personalized Welcome Email
 
 TypeScript + Express signup app that generates AI-personalized welcome copy and sends it through Mailtrap template API with config-only sandbox/production switching.
+
+## How It Works
+
+1. User opens `GET /signup` and submits profile data to `POST /signup`.
+2. App validates `name`, `email`, `role`, `companySize`, and `useCase` with Zod.
+3. OpenAI generates personalized `headline`, `body`, and `cta_text`.
+4. If OpenAI fails (API/network/timeout/rate-limit/invalid JSON/schema mismatch), app falls back to deterministic generic copy.
+5. App sends Mailtrap template email with variables (`user_name`, `headline`, `body`, `cta_text`) using sandbox or production mode from env config only.
+6. If mail send fails, app logs the error and still returns a friendly success response.
 
 ## Features
 
@@ -85,3 +94,12 @@ The app sends:
 - `headline`
 - `body`
 - `cta_text`
+
+## Project Structure
+
+- `src/config/env.ts` - typed environment schema with sandbox-mode conditional validation
+- `src/services/personalizationService.ts` - OpenAI personalization + generic fallback
+- `src/services/mailService.ts` - Mailtrap template delivery with env-driven mode switching
+- `src/routes/signup.ts` - server-rendered signup form, validation, rate limiting, and submission flow
+- `src/app.ts` / `src/server.ts` - app bootstrap and runtime entrypoint
+
